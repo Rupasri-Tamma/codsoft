@@ -1,0 +1,109 @@
+import java.util.*;
+// Student class
+class Student {
+    private String name;
+    private int rollNumber;
+    private String grade;
+    public Student(String name, int rollNumber, String grade) {
+        this.name = name;
+        this.rollNumber = rollNumber;
+        this.grade = grade;
+    }
+    public int getRollNumber() {
+        return rollNumber;
+    }
+    public void display() {
+        System.out.println("Name: " + name + ", Roll Number: " + rollNumber + ", Grade: " + grade);
+    }
+}
+public class StudentManagementSystem{
+    private ArrayList<Student> students;
+    public StudentManagementSystem() {
+        students = new ArrayList<>();
+    }
+    public void addStudent(String name, int rollNumber, String grade) {
+        students.add(new Student(name, rollNumber, grade));
+        System.out.println("Student added successfully!");
+    }
+    public void removeStudent(int rollNumber) {
+        Iterator<Student> iterator = students.iterator();
+
+        while (iterator.hasNext()) {
+            Student s = iterator.next();
+            if (s.getRollNumber() == rollNumber) {
+                iterator.remove();
+                System.out.println("Student removed successfully!");
+                return;
+            }
+        }
+        System.out.println("Student not found!");
+    }
+    public void searchStudent(int rollNumber) {
+        for (Student s : students) {
+            if (s.getRollNumber() == rollNumber) {
+                System.out.println("Student found:");
+                s.display();
+                return;
+            }
+        }
+        System.out.println("Student not found!");
+    }
+    public void displayAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students available.");
+            return;
+        }
+
+        System.out.println("\nStudent List:");
+        for (Student s : students) {
+            s.display();
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        StudentManagementSystem sms = new StudentManagementSystem();
+        int choice;
+        do {
+            System.out.println("\n--- Student Management System ---");
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Search Student");
+            System.out.println("4. Display All Students");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Roll Number: ");
+                    int roll = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Grade: ");
+                    String grade = sc.nextLine();
+                    sms.addStudent(name, roll, grade);
+                    break;
+                case 2:
+                    System.out.print("Enter Roll Number to remove: ");
+                    int removeRoll = sc.nextInt();
+                    sms.removeStudent(removeRoll);
+                    break;
+                case 3:
+                    System.out.print("Enter Roll Number to search: ");
+                    int searchRoll = sc.nextInt();
+                    sms.searchStudent(searchRoll);
+                    break;
+                case 4:
+                    sms.displayAllStudents();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 5);
+        sc.close();
+    }
+}
